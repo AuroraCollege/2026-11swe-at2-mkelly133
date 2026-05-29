@@ -78,4 +78,3 @@ class Game:
         
 g = Game()
 g.debug()
-        

@@ -123,6 +123,5 @@ class MinesweeperGame:
     def debug(self):
         self.grid.showGrid()
 
-        
 g = MinesweeperGame()
 g.debug()

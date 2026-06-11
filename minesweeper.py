@@ -1,6 +1,7 @@
 import random
 
 class Cell:
+    '''This is the definition for the little cells in minesweeper'''
     def __init__(self, id):
         self.id = id
         self.clicked = False

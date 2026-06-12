@@ -9,7 +9,9 @@
 <body>
     <div class="container">
         <h1>Minesweeper</h1>
-        <div class="message">{{ message }}</div>
+        {% if game.won %}
+        <h2>Congratulations - You won!</h2>
+        {% endif %}
         <div>
         {% for row in game.grid.grid %}
             <p>
@@ -32,6 +34,26 @@
         {% endfor %}
         </div>
         <a href="/minesweeper?new=1">New Game</a>
+
+        <form class="card p-4 shadow-sm" action="/minesweeper" method="post">
+            <label for="size">Grid size:</label>
+            <select id="size", name="size">
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+            </select>
+        <hr>
+            <label for="mines">Number of mines:</label>
+            <select id="mines", name="mines">
+                <option>4</option>
+                <option>8</option>
+                <option>12</option>
+                <option>16</option>
+            </select>
+            <button type="submit">New Game</button>
+        </form>
     </div>
 </body>
 

@@ -22,12 +22,17 @@ class Cell:
         if self.mine == True:
             return 1
         return 0
+    
+    def freeGround(self):
+        if self.mine == False and self.clicked == False:
+            return True
+        return False
 
 class Grid:
-    def __init__(self, size=6, number_of_mines = 5):
+    def __init__(self, size=6, mines = 5):
         self.size = size
         self.buildGrid(size)
-        self.seedMines(number_of_mines)
+        self.seedMines(mines)
         self.populateNumbers()
         
     def buildGrid(self, size):
@@ -79,18 +84,29 @@ class Grid:
                 print(cell.show(), end='  ')
         print()
 
+    def freeGroundRemains(self):
+        for i in self.grid:
+            for j in i:
+                if j.freeGround():
+                    return True
+        return False
+
 class MinesweeperGame:
-    def __init__(self):
-        self.grid = Grid()
+    def __init__(self, size=6, mines=5):
+        self.grid = Grid(size, mines)
         self.gameOver = False
+        self.won = False
 
     def click(self, id):
         i = int(id[0])
         j = int(id[1])
-        if self.grid.grid[i][j].click():
-            self.endGame()
         if self.grid.grid[i][j].number == 0:
             self.clickAdjacentZeros(i, j)
+        if self.grid.grid[i][j].click():
+            self.endGame()
+        elif not self.grid.freeGroundRemains():
+            self.won = True
+            self.endGame()
 
     def clickAdjacentZeros(self, a, b):
         rows = [a]
@@ -117,8 +133,10 @@ class MinesweeperGame:
             for j in range(self.grid.size):
                 self.grid.grid[i][j].clicked = True
 
-    def newGame(self):
-        self.__init__()
+    def newGame(self, size, mines):
+        size = size
+        mines = mines
+        self.__init__(size, mines)
     
     def debug(self):
         self.grid.showGrid()

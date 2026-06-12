@@ -19,13 +19,16 @@ def wumpus():
         message = wumpus_game.new_game()
     return render_template('wumpus.html', message=message, game=wumpus_game)
 
-@app.route('/minesweeper')
+@app.route('/minesweeper', methods=['POST', 'GET'])
 def minesweeper():
-    if request.args.get('new'):
-        ms.newGame()
-    id = request.args.get('id')
-    if id:
-        ms.click(id)
+    if request.method == 'POST':
+        size = int(request.form['size'])
+        mines = int(request.form['mines'] )
+        ms.newGame(size, mines)
+    else:
+        id = request.args.get('id')
+        if id:
+            ms.click(id)
     return render_template('minesweeper.html', game=ms)
 
 if __name__ == "__main__":
